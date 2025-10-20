@@ -1,21 +1,20 @@
 <!--
- @file : status.html
- @author : Scott Grimes (improved by Grok)
+ @file : index.html
+ @author : Scott Grimes
  @organization : Cortez Labs LLC
  @copyright : Copyright (c) 2021-2030 by Cortez Labs LLC. All Rights Reserved.
  @last modified on : 10-20-2025
- @last modified by : Grok (xAI)
- @description : Enhanced status page for Orca Force, featuring system overview, component statuses, incident history, and uptime metrics. Fully responsive and accessible. Updated to incorporate Orca Force CSS variables for consistent branding.
+ @description : Enhanced error page for Orca, handling various HTTP errors with dynamic messaging. Includes a prominent link to the dedicated status page at status.orcaforce.co for real-time system updates.
 -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Orca Force Status</title>
+    <title>Oops! - Something went wrong</title>
     <style>
         /*
-         * Global Root Styles for Orca Force Status Page
+         * Global Root Styles for Orca Error Page
          * Integrated from global-root-styles.css
          */
         :root {
@@ -60,185 +59,88 @@
             background-color: var(--orca-light);
             color: var(--orca-dark);
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
             min-height: 100vh;
         }
        
-        .header {
-            background: linear-gradient(135deg, var(--orca-primary-color) 0%, var(--orca-primary-dark-color) 100%);
-            color: white;
-            padding: 2rem 0;
-            text-align: center;
-        }
-       
-        .header h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-       
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-        }
-       
         .container {
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 2rem;
-        }
-       
-        .status-summary {
-            display: flex;
-            justify-content: space-around;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-       
-        .status-card {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
        
-        .status-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-            color: var(--orca-secondary-dark-color);
-        }
-       
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-        }
-       
-        .status-operational { background-color: var(--orca-success); }
-        .status-degraded { background-color: var(--orca-warning); }
-        .status-outage { background-color: var(--orca-danger); }
-       
-        .components {
-            background: white;
+        .error-box {
+            background-color: white;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-       
-        .components h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--orca-dark);
-        }
-       
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-       
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid var(--orca-secondary);
-        }
-       
-        th {
-            background-color: var(--orca-secondary);
-            font-weight: 600;
-            color: var(--orca-secondary-dark-color);
-        }
-       
-        .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: white;
-        }
-       
-        .badge-operational { background-color: var(--orca-success); }
-        .badge-degraded { background-color: var(--orca-warning); }
-        .badge-outage { background-color: var(--orca-danger); }
-       
-        .incidents {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-       
-        .incidents h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--orca-dark);
-        }
-       
-        .incident {
-            border-left: 4px solid #ddd;
-            padding-left: 1rem;
-            margin-bottom: 1.5rem;
-        }
-       
-        .incident.resolved {
-            border-left-color: var(--orca-success);
-        }
-       
-        .incident.active {
-            border-left-color: var(--orca-danger);
-        }
-       
-        .incident h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-            color: var(--orca-dark);
-        }
-       
-        .incident-meta {
-            font-size: 0.9rem;
-            color: var(--orca-secondary-dark-color);
-            margin-bottom: 0.5rem;
-        }
-       
-        .incident p {
-            color: var(--orca-secondary-dark-color);
-            margin-bottom: 0;
-        }
-       
-        .uptime {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 2rem;
+            padding: 2.5rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
        
-        .uptime h2 {
-            font-size: 1.8rem;
+        .error-code {
+            font-size: 5rem;
+            font-weight: 700;
+            color: var(--orca-danger);
             margin-bottom: 1rem;
+            line-height: 1;
+        }
+       
+        .error-code:after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: var(--orca-danger);
+            margin: 1rem auto;
+            border-radius: 4px;
+        }
+       
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
             color: var(--orca-dark);
         }
        
-        .uptime-metric {
-            display: inline-block;
-            margin: 0 2rem;
-        }
-       
-        .uptime-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--orca-success);
-        }
-       
-        .uptime-label {
-            font-size: 0.9rem;
+        p {
+            font-size: 1.1rem;
             color: var(--orca-secondary-dark-color);
+            margin-bottom: 1.5rem;
         }
-
-        /* Button Styles Updated to Use Orca Variables */
+       
+        .status-link {
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--orca-primary-color);
+        }
+       
+        .status-link a {
+            color: var(--orca-primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--orca-primary-70-color);
+        }
+       
+        .status-link a:hover {
+            color: var(--orca-primary-dark-color);
+            border-bottom-color: var(--orca-primary-color);
+        }
+       
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+       
         .btn {
             display: inline-block;
             padding: 0.8rem 1.5rem;
@@ -257,44 +159,27 @@
         }
        
         .btn-outline-primary {
-            --bs-btn-color: var(--orca-primary-color);
-            --bs-btn-border-color: var(--orca-primary-color);
-            --bs-btn-hover-color: #fff;
-            --bs-btn-hover-bg: var(--orca-primary-color);
-            --bs-btn-hover-border-color: var(--orca-primary-color);
-            --bs-btn-focus-shadow-rgb: 15, 122, 168;
-            --bs-btn-active-color: #fff;
-            --bs-btn-active-bg: var(--orca-primary-color);
-            --bs-btn-active-border-color: var(--orca-primary-color);
-            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
-            --bs-btn-disabled-color: var(--orca-primary-color);
-            --bs-btn-disabled-bg: transparent;
-            --bs-btn-disabled-border-color: var(--orca-primary-color);
-            --bs-gradient: none;
-        }
-       
-        .btn.secondary {
             background-color: transparent;
             color: var(--orca-primary-color);
             border: 1px solid var(--orca-primary-color);
         }
        
-        .btn.secondary:hover {
+        .btn-outline-primary:hover {
             background-color: var(--orca-primary-90-color);
+        }
+       
+        .illustration {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 2rem;
         }
        
         .footer {
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem;
             font-size: 0.9rem;
             color: var(--orca-secondary-dark-color);
             border-top: 1px solid var(--orca-secondary);
-            margin-top: 2rem;
-        }
-
-        .orca-spinner { 
-            border: var(--bs-spinner-border-width) solid var(--orca-primary-color);
-            border-right-color: transparent;
         }
        
         @media (max-width: 768px) {
@@ -302,153 +187,62 @@
                 padding: 1rem;
             }
            
-            .status-summary {
+            .error-box {
+                padding: 1.5rem;
+            }
+           
+            .error-code {
+                font-size: 3.5rem;
+            }
+           
+            h1 {
+                font-size: 1.5rem;
+            }
+           
+            .buttons {
                 flex-direction: column;
-                gap: 1rem;
             }
            
-            table {
-                font-size: 0.9rem;
-            }
-           
-            th, td {
-                padding: 0.75rem 0.5rem;
-            }
-           
-            .uptime-metric {
-                margin: 1rem 0;
+            .btn {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 0.5rem;
             }
         }
        
-        /* Fade-in animation */
+        /* Animation for the error message */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
        
-        .fade-in {
+        .animated {
             animation: fadeIn 0.6s ease-out forwards;
         }
     </style>
 </head>
 <body>
-    <header class="header fade-in">
-        <h1>Orca Force Status</h1>
-        <p>Real-time updates on our platform's performance and availability</p>
-    </header>
-   
     <div class="container">
-        <div class="status-summary fade-in">
-            <div class="status-card">
-                <h3>Overall System Status</h3>
-                <div>
-                    <span class="status-indicator status-operational"></span>
-                    <strong>All Systems Operational</strong>
-                </div>
+        <div class="error-box animated">
+            <svg class="illustration" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="80" fill="#f8d7da" />
+                <path d="M100 40 L100 120 M100 140 L100 150" stroke="var(--orca-danger)" stroke-width="8" stroke-linecap="round" />
+                <circle cx="100" cy="140" r="5" fill="var(--orca-danger)" />
+            </svg>
+           
+            <div class="error-code" id="errorCode">500</div>
+            <h1 id="errorTitle">Server Error</h1>
+            <p id="errorMessage">We're experiencing some technical difficulties right now. Our team has been notified and is working on a fix.</p>
+           
+            <div class="status-link">
+                For real-time updates on system status, visit our <a href="https://status.orcaforce.co" target="_blank">Status Page</a>.
             </div>
-            <div class="status-card">
-                <h3>Last Updated</h3>
-                <div id="lastUpdated">October 20, 2025, 12:00 PM UTC</div>
-            </div>
-            <div class="status-card">
-                <h3>Incidents (Past 30 Days)</h3>
-                <div>0 Active | 2 Resolved</div>
+           
+            <div class="buttons">
+                <a href="https://platform.orcaforce.co" class="btn btn-outline-primary">Go to Dashboard</a>
             </div>
         </div>
-       
-        <section class="components fade-in">
-            <h2>System Components</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Component</th>
-                        <th>Status</th>
-                        <th>Last Checked</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>API Gateway</td>
-                        <td><span class="status-badge badge-operational">Operational</span></td>
-                        <td>5 minutes ago</td>
-                    </tr>
-                    <tr>
-                        <td>Database Cluster</td>
-                        <td><span class="status-badge badge-operational">Operational</span></td>
-                        <td>2 minutes ago</td>
-                    </tr>
-                    <tr>
-                        <td>Web Platform</td>
-                        <td><span class="status-badge badge-operational">Operational</span></td>
-                        <td>1 minute ago</td>
-                    </tr>
-                    <tr>
-                        <td>Notification Service</td>
-                        <td><span class="status-badge badge-degraded">Degraded Performance</span></td>
-                        <td>10 minutes ago</td>
-                    </tr>
-                    <tr>
-                        <td>File Storage</td>
-                        <td><span class="status-badge badge-operational">Operational</span></td>
-                        <td>3 minutes ago</td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-       
-        <section class="incidents fade-in">
-            <h2>Recent Incidents</h2>
-            <div class="incident resolved">
-                <h3>Notification Service Latency Issue</h3>
-                <div class="incident-meta">October 15, 2025 | Resolved</div>
-                <p>Intermittent delays in push notifications due to increased traffic. Performance has been restored, and monitoring is in place.</p>
-            </div>
-            <div class="incident resolved">
-                <h3>Minor Database Query Timeout</h3>
-                <div class="incident-meta">October 10, 2025 | Resolved</div>
-                <p>Brief timeouts during peak hours. Optimized queries have eliminated the issue.</p>
-            </div>
-        </section>
-       
-        <section class="uptime fade-in">
-            <h2>Uptime Metrics (Past 30 Days)</h2>
-            <div class="uptime-metric">
-                <div class="uptime-number" id="uptimePercent">99.98%</div>
-                <div class="uptime-label">Availability</div>
-            </div>
-            <div class="uptime-metric">
-                <div class="uptime-number">1.2s</div>
-                <div class="uptime-label">Avg Response Time</div>
-            </div>
-            <div class="uptime-metric">
-                <div class="uptime-number">0.02%</div>
-                <div class="uptime-label">Error Rate</div>
-            </div>
-        </section>
     </div>
    
-    <footer class="footer">
-        &copy; <span id="currentYear">2025</span> Orca Force | Powered by Cortez Labs LLC | <a href="https://orcaforce.co/support" class="btn-outline-primary" style="text-decoration: none; margin-left: 0.5rem;">Contact Support</a>
-    </footer>
-   
-    <script>
-        // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-       
-        // Update last updated timestamp dynamically
-        function updateTimestamp() {
-            const now = new Date().toLocaleString('en-US', { timeZone: 'UTC' });
-            document.getElementById('lastUpdated').textContent = now;
-        }
-        updateTimestamp();
-        setInterval(updateTimestamp, 60000); // Update every minute
-       
-        // Simple status refresh simulation (replace with real API calls in production)
-        function refreshStatus() {
-            // Placeholder: In a real implementation, fetch from /api/status
-            console.log('Status refreshed');
-        }
-        setInterval(refreshStatus, 300000); // Refresh every 5 minutes
-    </script>
-</body>
-</html>
+    <div class="footer">
+        &copy; <span id="currentYear">2025</span> Orca Force | Powered by Cortez
